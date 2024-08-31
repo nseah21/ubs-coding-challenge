@@ -3,6 +3,14 @@ import re
 from collections import defaultdict
 import math
 
+"""
+Team Turtle
+
+Assumptions: 
+1. The keys `school` and `students` exist in the input.json
+2. 
+
+"""
 
 def main():
     schools, students = read_json("input.json")
@@ -54,9 +62,18 @@ def read_json(file_path):
         school_data = data["schools"]
         student_data = data["students"]
         for school in school_data:
-            all_schools.append(School(**school))
+            all_schools.append(School(
+                school["name"],
+                school["location"],
+                school["maxAllocation"]
+            ))
         for student in student_data:
-            all_students.append(Student(**student))
+            all_students.append(Student(
+                student["id"],
+                student["homeLocation"],
+                student.get("alumni", ""),
+                student.get("volunteer", "")
+            ))
 
     return all_schools, all_students
 
