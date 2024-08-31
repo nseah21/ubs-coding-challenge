@@ -19,11 +19,11 @@ def main():
             curr[school.name].append(students.pop().id)
         res.append(curr)
 
-        with open("output.json", "w") as fp:
-            json_string = json.dumps(res, indent=2, separators=(",", ": "))
-            json_string = json_string.replace("\n      ", "").replace("\n    ]", "]")
+    with open("output.json", "w") as fp:
+        json_string = json.dumps(res, indent=2, separators=(",", ": "))
+        json_string = json_string.replace("\n      ", "").replace("\n    ]", "]")
 
-            fp.write(json_string)
+        fp.write(json_string)
 
 
 def allocate_students_based_on_weightage(school, student):
