@@ -8,7 +8,10 @@ Team Turtle
 
 Assumptions: 
 1. The keys `school` and `students` exist in the input.json
-2. 
+2. No school is mentioned that does not belong in the list of schools
+3. A school must have the properties 'name', 'location', and 'maxAllocation'
+4. Max allocation is always a positive integer
+5. Location coordinates are always a tuple of two integers (2d)
 
 """
 
