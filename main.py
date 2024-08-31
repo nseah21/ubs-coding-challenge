@@ -10,11 +10,12 @@ def main():
     res = []
 
     for school in schools:
-        if not students:
-            break
         students.sort(key=lambda x: allocate_students_based_on_weightage(school, x))
         curr = defaultdict(list)
+        curr[school.name] = []
         for _ in range(school.maxAllocation):
+            if not students:
+                break
             curr[school.name].append(students.pop().id)
         res.append(curr)
 
