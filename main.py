@@ -7,16 +7,20 @@ from Student import Student
 
 
 def main():
-    schoolA = School("School A", [1, 3], 1)
-    schoolB = School("School B", [2, 4], 1)
+    # schoolA = School("School A", [1, 3], 1)
+    # schoolB = School("School B", [2, 4], 1)
 
-    student1 = Student(1, [0, 0], "School B", "School B")
-    student2 = Student(2, [5, 5], "School A", "School B")
-    student3 = Student(3, [2, 5], "School A")
+    # student1 = Student(1, [0, 0], "School B", "School B")
+    # student2 = Student(2, [5, 5], "School A", "School B")
+    # student3 = Student(3, [2, 5], "School A")
     # student3 = Student(4, [2, 4], "School B")
 
-    schools = [schoolA, schoolB]
-    students = [student1, student2, student3]  # <<<
+    schools, students = read_json("input.json")
+
+    # schools = [schoolA, schoolB]
+    # students = [student2, student1, student3]
+
+    students.sort(key=lambda x: x.id)
 
     for school in schools:
         # print(school.name)
@@ -35,16 +39,20 @@ def main():
         curr = defaultdict(list)
         for _ in range(school.maxAllocation):
             curr[school.name].append(students.pop().id)
-
         res.append(curr)
             # print(list(map(lambda x: x.id, students)))
         # resort the queue
         # remove first element from the queue
-
-        with open("output.json", "w") as fp:
-            # json.encoder.pretty_json_lists = True
-            json.dump(res, fp, indent=2)
     
+        with open("output.json", "w") as fp: 
+            # Dump JSON with separators and a 2-space indent 
+            json_string = json.dumps(res, indent=2, separators=(',', ': ')) 
+ 
+            # Post-process the string to move lists onto the same line as their keys 
+            json_string = json_string.replace('\n      ', '').replace('\n    ]', ']') 
+ 
+            fp.write(json_string)
+
 
 
 def allocate_students_based_on_weightage(school, student):
