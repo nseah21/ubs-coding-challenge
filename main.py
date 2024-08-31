@@ -1,4 +1,6 @@
 import json
+import re
+from collections import defaultdict 
 import math
 from School import School
 from Student import Student
@@ -24,20 +26,25 @@ def main():
         # print(normalise_school_distance(compute_school_distance(school.location, student.homeLocation)))
         # print(is_alumni(student, school))
 
-    res = {}
+    res = []
 
     for school in schools:
-        res[school.name] = []
         if not students:
             break
         students.sort(key=lambda x: allocate_students_based_on_weightage(school, x))
+        curr = defaultdict(list)
         for _ in range(school.maxAllocation):
-            res[school.name].append(students.pop().id)
+            curr[school.name].append(students.pop().id)
+
+        res.append(curr)
             # print(list(map(lambda x: x.id, students)))
         # resort the queue
         # remove first element from the queue
 
-    print(res)
+        with open("output.json", "w") as fp:
+            # json.encoder.pretty_json_lists = True
+            json.dump(res, fp, indent=2)
+    
 
 
 def allocate_students_based_on_weightage(school, student):
@@ -66,7 +73,16 @@ def read_json(file_path):
     """
     with open(file_path, "r") as f:
         data = json.load(f)
-    return data
+        all_schools = []
+        all_students = []
+        school_data = data["schools"]
+        student_data = data["students"]
+        for school in school_data:
+            all_schools.append(School(**school))
+        for student in student_data:
+            all_students.append(Student(**student))
+            
+    return all_schools, all_students
 
 
 def process_data(data):
@@ -100,6 +116,7 @@ def is_volunteer(student, school):
 
 if __name__ == "__main__":
     # input_file = 'input.json'  # You can change the file path if needed
-    # json_data = read_json(input_file)
-    # process_data(json_data)
+    # schools, students = read_json(input_file)
+    # print(schools)
+    # print(students)
     main()
